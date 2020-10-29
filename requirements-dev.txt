@@ -1,5 +1,7 @@
 coverage
+cython
 flake8 >= 3.7
+ipython
 pytest >= 5.1
 pytest-cov
 twine

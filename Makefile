@@ -54,6 +54,7 @@ uninstall:  ## Uninstall the package from the systgem $(PYTHON)
 	CYTHONIZE=1 $(VENV_PYTHON) -m pip install -e .[dev,docs]
 
 test38: .venv/py38/bin/py.test ## Run tests for Python 3.8
+	CYTHONIZE=1 $(VENV_PYTHON) setup.py build_ext --inplace --verbose
 	$(TESTENV) $< -v $(TESTOPTIONS) $(TESTS)
 
 test: test38  ## Run all tests
