@@ -32,7 +32,6 @@ uninstall:
 
 .venv/py38/bin/py.test:
 	python3.8 -m venv .venv/py38
-	.venv/py38/bin/python -m pip install cython
 	CYTHONIZE=1 .venv/py38/bin/python -m pip install -e .[dev,docs]
 
 test38: .venv/py38/bin/py.test ## run tests for Python 3.8

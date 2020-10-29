@@ -16,11 +16,8 @@ def no_cythonize(extensions, **_ignore):
         for sfile in extension.sources:
             path, ext = os.path.splitext(sfile)
             if ext in (".pyx", ".py"):
-                if extension.language == "c++":
-                    ext = ".cpp"
-                else:
-                    ext = ".c"
-                sfile = path + ext
+                ext = {"c++": ".cpp"}.get(extension.language, '.c')
+                sfile = path + {"c++": ".cpp"}.get(extension.language, '.c')
             sources.append(sfile)
         extension.sources[:] = sources
     return extensions
