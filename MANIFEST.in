@@ -1,2 +1,10 @@
+graft src
 include requirements*.txt
 include LICENSE.txt
+include README.rst
+include pyproject.toml
+
+recursive-include tests *
+recursive-exclude * __pycache__
+recursive-exclude * *.py[co]
+recursive-exclude * *.so
