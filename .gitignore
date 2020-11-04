@@ -5,6 +5,10 @@ __pycache__/
 
 # C extensions
 *.so
+/src/cypack/answer.c
+/src/cypack/fibonacci.c
+/src/cypack/sub/wrong.c
+/src/cypack/utils.c
 
 # Distribution / packaging
 .Python
