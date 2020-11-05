@@ -1,8 +1,18 @@
+better-apidoc
 coverage
 cython
+doctr
+doctr-versions-menu
 flake8 >= 3.7
+gitpython
+ipython
 ipython
 pytest >= 5.1
 pytest-cov
+sphinx
+sphinx-autobuild
+sphinx-copybutton
+sphinx_rtd_theme
+travis-encrypt
 twine
 wheel

@@ -22,6 +22,10 @@ from pathlib import Path
 
 ROOT = Path(__file__).parent.parent
 
+DOCS_SOURCES = ROOT / 'docs' / 'sources'
+
+DOCS_BUILDDIR = ROOT / 'docs' / '_build'
+
 # fmt: off
 FILES_TO_DELETE = {
     'tests': [
@@ -41,7 +45,10 @@ FILES_TO_DELETE = {
         ROOT / 'src' / 'cypack' / 'sub' / 'wrong.c',
         ROOT / 'src' / 'cypack' / 'utils.c',
     ],
-    'docs': [],
+    'docs': [
+        DOCS_BUILDDIR,
+        (DOCS_SOURCES / 'API', '*.rst'),
+    ],
     'venv': [
         ROOT / '.tox',
         ROOT / '.venv'
@@ -51,7 +58,7 @@ FILES_TO_DELETE = {
 
 
 def main(selection):
-    """Main function"""
+    """Main function."""
     if selection == 'all':
         for key in FILES_TO_DELETE:
             main(key)

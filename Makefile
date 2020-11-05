@@ -1,4 +1,4 @@
-.PHONY: help bootstrap build dist redist install install-from-source clean uninstall test test37 test38 test39 release upload test-upload
+.PHONY: help bootstrap build dist redist install install-from-source clean clean-build clean-tests clean-venv clean-docs uninstall test test37 test38 test39 release upload test-upload docs
 
 .DEFAULT_GOAL := help
 
@@ -75,6 +75,10 @@ clean-tests: ## remove test and coverage artifacts
 
 clean-venv: ## remove tox virtual environments
 	python scripts/clean.py venv
+
+docs: bootstrap ## generate Sphinx HTML documentation, including API docs
+	$(TOX) -e docs
+	@echo "open docs/_build/html/index.html"
 
 clean-docs: ## remove documentation artifacts
 	python scripts/clean.py docs
