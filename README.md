@@ -1,5 +1,7 @@
 # Cython package example
 
+Forked from https://github.com/FedericoStra/cython-package-example
+
 ## Purpose
 
 The purpose of this package is to demonstrate to and organize a project developed using Cython.
