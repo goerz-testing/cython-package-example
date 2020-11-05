@@ -1,4 +1,4 @@
-.PHONY: build dist redist install install-from-source clean uninstall test test38
+.PHONY: help bootstrap build dist redist install install-from-source clean uninstall test test37 test38 test39 release upload test-upload
 
 .DEFAULT_GOAL := help
 
@@ -38,13 +38,30 @@ dist-check: dist ## Check all dist files for correctness
 
 redist: clean dist
 
+release: bootstrap ## Create a new version, package and upload it
+	python3.8 -m venv .venv/release
+	.venv/release/bin/python -m pip install click gitpython pytest
+	.venv/release/bin/python ./scripts/release.py
+
+test-upload: bootstrap clean-build dist ## package and Upload a release to test.pypi.org
+	$(TOX) -e run-cmd -- twine check dist/*
+	$(TOX) -e run-cmd -- twine upload --repository-url https://test.pypi.org/legacy/ dist/*
+
+upload: bootstrap clean-build dist ## package and upload a release to pypi.org
+	# $(TOX) -e run-cmd -- twine check dist/*
+	# $(TOX) -e run-cmd -- twine upload dist/*
+	make test-upload
+
 install:  ## Install the package into the system $(PYTHON)
 	CYTHONIZE=1 $(PYTHON) -m pip install .
 
 install-from-sdist: dist  ## Install the package from the source distribution into the system $(PYTHON)
-	$(PYTHON) -m pip install -v dist/cython-package-example-0.1.5.tar.gz
+	$(PYTHON) -m pip install -v dist/mg-cython-package-example-*.tar.gz
 
-uninstall:  ## Uninstall the package from the systgem $(PYTHON)
+install-from-wheel: dist  ## Install the package from the wheel distribution into the system $(PYTHON)
+	$(PYTHON) -m pip install -v dist/mg_cython_package_example-*.whl
+
+uninstall:  ## Uninstall the package from the system $(PYTHON)
 	$(PYTHON) -m pip uninstall cython-package-example
 
 clean: ## remove all build, docs, test, and coverage artifacts, as well as tox environments

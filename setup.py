@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 import os
-from setuptools import setup, Extension
+from setuptools import find_packages, setup, Extension
 
 CYTHONIZE = True
 # We'll cythonize by default since we can rely on Cython being installed at
@@ -73,6 +73,19 @@ with open("requirements.txt") as fp:
 with open("requirements-dev.txt") as fp:
     DEV_REQUIRES = fp.read().strip().split("\n")
 
+with open('README.md', encoding='utf8') as readme_file:
+    README = readme_file.read()
+
+
+def get_version(filename):
+    """Extract the package version."""
+    with open(filename, encoding='utf8') as in_fh:
+        for line in in_fh:
+            if line.startswith('__version__'):
+                return line.split('=')[1].strip()[1:-1]
+    raise ValueError("Cannot extract version from %s" % filename)
+
+
 setup(
     ext_modules=EXTENSIONS,
     install_requires=INSTALL_REQUIRES,
@@ -80,4 +93,33 @@ setup(
         "dev": DEV_REQUIRES,
         "docs": ["sphinx", "sphinx-rtd-theme"],
     },
+    author="Michael Goerz",
+    author_email='mail@michaelgoerz.net',
+    classifiers=[
+        'Development Status :: 2 - Pre-Alpha',
+        'Intended Audience :: Education',
+        'Intended Audience :: Developers',
+        'Topic :: Scientific/Engineering',
+        'Natural Language :: English',
+        'Operating System :: OS Independent',
+        'Programming Language :: C',
+        'Programming Language :: Cython',
+        'Programming Language :: Python',
+        'Programming Language :: Python :: 3.7',
+        'Programming Language :: Python :: 3.8',
+        'Programming Language :: Python :: 3.9',
+        'Programming Language :: Python :: Implementation :: CPython',
+        'License :: OSI Approved :: MIT License',
+    ],
+    description="Example of a package with Cython extensions",
+    python_requires='>=3.7',
+    long_description=README,
+    long_description_content_type='text/markdown',
+    name='mg-cython-package-example',
+    packages=find_packages(where="src"),
+    package_dir={"": "src"},
+    package_data={'*': ['*.pxd', '*.h'], 'cypack': ['data/*']},
+    url='https://github.com/goerz-testing/cython-package-example',
+    version=get_version('./src/cypack/__init__.py'),
+    zip_safe=False,
 )
