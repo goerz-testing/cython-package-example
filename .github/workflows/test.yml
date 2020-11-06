@@ -1,0 +1,37 @@
+name: Run Tests
+
+on: [push, pull_request]
+
+jobs:
+  run_tests:
+    name: 
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        include:
+          - os: ubuntu-18.04
+            python: 3.7
+            tox_env: py37-test
+          - os: ubuntu-18.04
+            python: 3.8
+            tox_env: py38-test
+          - os: ubuntu-18.04
+            python: 3.9
+            tox_env: py39-test
+          - os: windows-latest
+            python: 3.8
+            tox_env: py38-test
+          - os: macos-latest
+            python: 3.8
+            tox_env: py38-test
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-python@v2
+        name: Install Python ${{ matrix.python }}
+        with:
+          python-version: ${{ matrix.python }}
+      - name: Install Tox
+        run: pip install tox
+      - name: Run Tox
+        # Run tox using the version of Python in `PATH`
+        run: tox -e ${{ matrix.tox_env }}
