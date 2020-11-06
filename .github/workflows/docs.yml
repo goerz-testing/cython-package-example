@@ -1,0 +1,36 @@
+name: Docs
+
+on: [push, ]
+
+jobs:
+  build_docs:
+    name: Build Sphinx docs
+    runs-on: ubuntu-18.04
+    steps:
+      - uses: actions/checkout@v2
+
+      - uses: actions/setup-python@v2
+        name: Install Python 3.8
+        with:
+          python-version: 3.8
+
+      - name: Install Tox and other build requirements
+        run: pip install tox doctr-versions-menu zip-files
+
+      - name: Run Tox
+        run: tox -e docs
+
+      - name: Get the version
+        id: get_version
+        run: echo ::set-output name=VERSION::$(python -c 'from pathlib import Path; import sys; sys.stdout.write([line.split("=")[-1].strip()[1:-1] for line in Path("./src/cypack/__init__.py").read_text(encoding="utf8").split("\n") if line.startswith("__version__")][0])')
+
+      - name: Zip the HTML documentation
+        run: zip-folder --debug --auto-root --outfile "cypack-docs-${{ steps.get_version.outputs.VERSION }}.zip" docs/_build/html
+
+      - uses: actions/upload-artifact@v2
+        with:
+          name: cypack-docs-${{ steps.get_version.outputs.VERSION }}
+          # We must have multiple files in the artifact so we don't end up with a confusing double-zip file
+          path: |
+            ./cypack-*.zip
+            README.md

@@ -1,10 +1,10 @@
-name: Run Tests
+name: Tests
 
 on: [push, pull_request]
 
 jobs:
   run_tests:
-    name: 
+    name:  Run tests on ${{ matrix.os }} for ${{ matrix.python }}
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
@@ -26,12 +26,14 @@ jobs:
             tox_env: py38-test
     steps:
       - uses: actions/checkout@v2
+
       - uses: actions/setup-python@v2
         name: Install Python ${{ matrix.python }}
         with:
           python-version: ${{ matrix.python }}
+
       - name: Install Tox
         run: pip install tox
+
       - name: Run Tox
-        # Run tox using the version of Python in `PATH`
         run: tox -e ${{ matrix.tox_env }}
