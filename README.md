@@ -9,6 +9,8 @@ It shows a suitable folder structure according to the best practices for a proje
 
 The ideas and concepts implemented here are discussed in the [Wiki](https://github.com/goerz-testing/cython-package-example/wiki/Packaging-and-Testing-of-Cython-Packages)
 
+Example documentation for the package is rendered at https://goerz-testing.github.io/cython-package-example/
+
 ## Usage
 
 Run `make` or `tox -av` for an overview of available development/packaging tasks.
