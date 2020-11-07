@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Cython package example &mdash; Cython Package Example 0.2.0+dev (e199d1a) documentation</title>
+  <title>Cython package example &mdash; Cython Package Example 0.2.0+dev (a295b67) documentation</title>
   
 
   
@@ -41,7 +41,7 @@
     
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="cypack package" href="API/cypack.html" /> 
+    <link rel="next" title="Packaging and Testing of Cython Packages" href="guidelines.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -90,7 +90,12 @@
               
             
             
-              <ul>
+              <p class="caption"><span class="caption-text">Guidelines</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="guidelines.html">Packaging and Testing of Cython Packages</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Example API</span></p>
+<ul>
 <li class="toctree-l1"><a class="reference internal" href="API/cypack.html">cypack package</a></li>
 </ul>
 
@@ -163,18 +168,45 @@
             
   <div class="section" id="cython-package-example">
 <h1>Cython package example<a class="headerlink" href="#cython-package-example" title="Permalink to this headline">¶</a></h1>
+<a class="reference external image-reference" href="https://github.com/goerz-testing/cython-package-example"><img alt="Source code on Github" src="https://img.shields.io/badge/goerz--testing-cython--package--example-blue?logo=github" /></a>
+<a class="reference external image-reference" href="https://github.com/goerz-testing/cython-package-example/actions?query=workflow%3ATests"><img alt="Tests" src="https://github.com/goerz-testing/cython-package-example/workflows/Tests/badge.svg?branch=master" /></a>
+<a class="reference external image-reference" href="https://github.com/goerz-testing/cython-package-example/actions?query=workflow%3ADocs"><img alt="Docs" src="https://github.com/goerz-testing/cython-package-example/workflows/Docs/badge.svg?branch=master" /></a>
+<p>The purpose of this package is to demonstrate the organization of a project
+developed using Cython. See the <a class="reference external" href="https://github.com/goerz-testing/cython-package-example">Github project</a> for example source code and
+configuration files, showing the best practices for a project that makes use of
+<code class="docutils literal notranslate"><span class="pre">pyproject.toml</span></code>, how to create extension modules with Cython, how to
+implement functions in C and make them available to Cython, how to include
+package data, how to write a <code class="docutils literal notranslate"><span class="pre">setup.py</span></code> script that allows users without
+Cython to install the package nonetheless.</p>
+<p>The ideas and concepts implemented here are discussed in the Guidelines below.</p>
 <div class="toctree-wrapper compound">
+<p class="caption"><span class="caption-text">Guidelines</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="API/cypack.html">cypack package</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="API/cypack.answer.html">cypack.answer module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="API/cypack.fibonacci.html">cypack.fibonacci module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="API/cypack.pyanswer.html">cypack.pyanswer module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="API/cypack.utils.html">cypack.utils module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="API/cypack.sub.html">cypack.sub package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="guidelines.html">Packaging and Testing of Cython Packages</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="guidelines.html#background-pure-python-packages">Background: Pure Python Packages</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="guidelines.html#testing-environment-via-tox">Testing environment (via tox)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="guidelines.html#packaging">Packaging</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="guidelines.html#traditional-cython-packages">Traditional Cython Packages</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="guidelines.html#testing-and-development-installs">Testing and development installs</a></li>
+<li class="toctree-l3"><a class="reference internal" href="guidelines.html#package-installations">Package installations</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="guidelines.html#cython-packages-using-pyproject-toml">Cython packages using pyproject.toml</a></li>
+<li class="toctree-l2"><a class="reference internal" href="guidelines.html#building-platform-wheels">Building platform wheels</a></li>
 </ul>
 </li>
 </ul>
 </div>
+<div class="toctree-wrapper compound">
+<p class="caption"><span class="caption-text">Example API</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="API/cypack.html">cypack package</a></li>
+</ul>
+</div>
+<p>The above example API exists merely to illustrate how Sphinx will render the
+API for a Cython project.</p>
 </div>
 
 
@@ -185,7 +217,7 @@
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="API/cypack.html" class="btn btn-neutral float-right" title="cypack package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="guidelines.html" class="btn btn-neutral float-right" title="Packaging and Testing of Cython Packages" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
     </div>
@@ -198,7 +230,7 @@
         
         &copy; Copyright 2020, Michael Goerz
       <span class="lastupdated">
-        Last updated on Nov 06, 2020.
+        Last updated on Dec 13, 2020.
       </span>
 
     </p>

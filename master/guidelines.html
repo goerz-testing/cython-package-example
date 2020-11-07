@@ -1,0 +1,372 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Packaging and Testing of Cython Packages &mdash; Cython Package Example 0.2.0+dev (a295b67) documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/copybutton.css" type="text/css" />
+  <link rel="stylesheet" href="_static/mycss.css" type="text/css" />
+
+  
+  
+  
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/language_data.js"></script>
+        <script src="_static/clipboard.min.js"></script>
+        <script src="_static/copybutton.js"></script>
+        <script src="_static/doctr-versions-menu.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="cypack package" href="API/cypack.html" />
+    <link rel="prev" title="Cython package example" href="index.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home" alt="Documentation Home"> Cython Package Example
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.2.0+dev
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Guidelines</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Packaging and Testing of Cython Packages</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#background-pure-python-packages">Background: Pure Python Packages</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#testing-environment-via-tox">Testing environment (via tox)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#packaging">Packaging</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#traditional-cython-packages">Traditional Cython Packages</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#testing-and-development-installs">Testing and development installs</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#package-installations">Package installations</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#cython-packages-using-pyproject-toml">Cython packages using pyproject.toml</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#building-platform-wheels">Building platform wheels</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption"><span class="caption-text">Example API</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="API/cypack.html">cypack package</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Cython Package Example</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>Packaging and Testing of Cython Packages</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="packaging-and-testing-of-cython-packages">
+<h1>Packaging and Testing of Cython Packages<a class="headerlink" href="#packaging-and-testing-of-cython-packages" title="Permalink to this headline">¶</a></h1>
+<p>Testing should be done with <code class="docutils literal notranslate"><span class="pre">tox</span></code>, with a thin <code class="docutils literal notranslate"><span class="pre">Makefile</span></code> wrapper.</p>
+<p>Requirements:</p>
+<ul class="simple">
+<li><p>Testing should be “isolated”, testing the <em>installation</em> of a package</p></li>
+<li><p>A <code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">test</span></code>/<code class="docutils literal notranslate"><span class="pre">tox</span></code> call should automatically pick up on changes in the <code class="docutils literal notranslate"><span class="pre">src</span></code> directory (“editable installs”)</p></li>
+</ul>
+<div class="section" id="background-pure-python-packages">
+<h2>Background: Pure Python Packages<a class="headerlink" href="#background-pure-python-packages" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="testing-environment-via-tox">
+<h3>Testing environment (via tox)<a class="headerlink" href="#testing-environment-via-tox" title="Permalink to this headline">¶</a></h3>
+<p>The virtual test environments are set up in a <code class="docutils literal notranslate"><span class="pre">tox.ini</span></code> file. For example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">testenv</span><span class="p">]</span>
+<span class="n">basepython</span> <span class="o">=</span>
+    <span class="n">py39</span><span class="p">:</span> <span class="n">python3</span><span class="o">.</span><span class="mi">9</span>
+    <span class="n">py38</span><span class="p">,</span><span class="n">run</span><span class="p">,</span><span class="n">docs</span><span class="p">,</span><span class="n">coverage</span><span class="p">,</span><span class="n">bootstrap</span><span class="p">:</span> <span class="n">python3</span><span class="o">.</span><span class="mi">8</span>
+<span class="n">envdir</span> <span class="o">=</span>
+    <span class="n">py39</span><span class="p">:</span> <span class="p">{</span><span class="n">toxworkdir</span><span class="p">}</span><span class="o">/</span><span class="n">py39</span>
+    <span class="n">py38</span><span class="p">,</span><span class="n">run</span><span class="p">,</span><span class="n">docs</span><span class="p">,</span><span class="n">coverage</span><span class="p">:</span> <span class="p">{</span><span class="n">toxworkdir</span><span class="p">}</span><span class="o">/</span><span class="n">py38</span>
+<span class="n">deps</span> <span class="o">=</span>
+    <span class="n">cython</span>
+    <span class="n">numpy</span>
+    <span class="n">scipy</span>
+<span class="n">usedevelop</span> <span class="o">=</span> <span class="n">true</span>
+<span class="n">extras</span><span class="o">=</span>
+    <span class="n">dev</span>
+<span class="n">passenv</span> <span class="o">=</span> <span class="n">HOME</span> <span class="n">CI</span> <span class="n">TRAVIS</span> <span class="n">TRAVIS_</span><span class="o">*</span> <span class="n">COVERALLS</span><span class="o">*</span> <span class="n">CODECOV</span><span class="o">*</span> <span class="n">SPELLCHECK</span> <span class="n">SSH_AUTH_SOCK</span> <span class="n">http_proxy</span> <span class="n">https_proxy</span> <span class="n">no_proxy</span>
+<span class="n">description</span> <span class="o">=</span>
+    <span class="n">py</span><span class="p">{</span><span class="mi">38</span><span class="p">,</span><span class="mi">39</span><span class="p">}</span><span class="o">-</span><span class="n">test</span><span class="p">:</span> <span class="n">Run</span> <span class="n">tests</span> <span class="ow">in</span> <span class="n">the</span> <span class="n">corresponding</span> <span class="n">environment</span>
+    <span class="n">py</span><span class="p">{</span><span class="mi">38</span><span class="p">,</span><span class="mi">39</span><span class="p">}</span><span class="o">-</span><span class="n">runcmd</span><span class="p">:</span> <span class="n">Run</span> <span class="n">arbitrary</span> <span class="n">command</span> <span class="n">following</span> <span class="s2">&quot;--&quot;</span> <span class="ow">in</span> <span class="n">the</span> <span class="n">corresponding</span> <span class="n">environment</span>
+<span class="n">commands_pre</span> <span class="o">=</span>
+    <span class="n">python</span> <span class="o">-</span><span class="n">V</span>
+<span class="n">commands</span> <span class="o">=</span>
+    <span class="n">py</span><span class="p">{</span><span class="mi">38</span><span class="p">,</span><span class="mi">39</span><span class="p">}</span><span class="o">-</span><span class="n">runcmd</span><span class="p">:</span> <span class="p">{</span><span class="n">posargs</span><span class="p">:</span><span class="n">python</span> <span class="o">-</span><span class="n">c</span> <span class="s1">&#39;print(&quot;No command&quot;)&#39;</span><span class="p">}</span>
+    <span class="n">py</span><span class="p">{</span><span class="mi">38</span><span class="p">,</span><span class="mi">39</span><span class="p">}</span><span class="o">-</span><span class="n">test</span><span class="p">:</span> <span class="n">py</span><span class="o">.</span><span class="n">test</span> <span class="o">-</span><span class="n">vvv</span> <span class="o">--</span><span class="n">doctest</span><span class="o">-</span><span class="n">modules</span> <span class="o">--</span><span class="n">cov</span><span class="o">=</span><span class="n">qalgebra</span> <span class="o">--</span><span class="n">nbval</span> <span class="o">--</span><span class="n">sanitize</span><span class="o">-</span><span class="k">with</span> <span class="n">docs</span><span class="o">/</span><span class="n">sources</span><span class="o">/</span><span class="n">nbval_sanitize</span><span class="o">.</span><span class="n">cfg</span> <span class="p">{</span><span class="n">posargs</span><span class="p">:</span><span class="o">--</span><span class="n">durations</span><span class="o">=</span><span class="mi">10</span> <span class="o">-</span><span class="n">x</span> <span class="o">-</span><span class="n">s</span> <span class="n">src</span> <span class="n">tests</span> <span class="n">docs</span><span class="o">/</span><span class="n">sources</span> <span class="n">README</span><span class="o">.</span><span class="n">rst</span><span class="p">}</span>
+</pre></div>
+</div>
+<p>In the above example, <code class="docutils literal notranslate"><span class="pre">cython</span></code>, <code class="docutils literal notranslate"><span class="pre">numpy</span></code>, and <code class="docutils literal notranslate"><span class="pre">scipy</span></code> (the “build-dependencies” that <code class="docutils literal notranslate"><span class="pre">setup.py</span></code> depends on) are installed first, all other dependencies and the package itself are installed by <code class="docutils literal notranslate"><span class="pre">tox</span></code> running</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pip</span> <span class="n">install</span> <span class="o">-</span><span class="n">e</span> <span class="o">.</span>
+</pre></div>
+</div>
+<p>This is due to <code class="docutils literal notranslate"><span class="pre">usedevelop</span> <span class="pre">=</span> <span class="pre">true</span></code>, a.k.a <a class="reference external" href="https://setuptools.readthedocs.io/en/latest/userguide/development_mode.html">setuptools “Development Mode”</a>.</p>
+</div>
+<div class="section" id="packaging">
+<h3>Packaging<a class="headerlink" href="#packaging" title="Permalink to this headline">¶</a></h3>
+<p>For packaging, the <code class="docutils literal notranslate"><span class="pre">Makefile</span></code> invokes the <code class="docutils literal notranslate"><span class="pre">setup.py</span></code> to generate distributions in the <code class="docutils literal notranslate"><span class="pre">dist</span></code> sub-directory. For example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>TOXOPTIONS ?=
+TOXINI ?= tox.ini
+TOX = tox -c $(TOXINI) $(TOXOPTIONS)
+
+dist: bootstrap ## builds source and wheel package
+	$(TOX) -e run-cmd -- python setup.py sdist
+	$(TOX) -e run-cmd -- python setup.py bdist_wheel
+	ls -l dist
+</pre></div>
+</div>
+<p>This relies on the following setup in <code class="docutils literal notranslate"><span class="pre">tox.ini</span></code>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">testenv</span><span class="p">:</span><span class="n">run</span><span class="o">-</span><span class="n">cmd</span><span class="p">]</span>
+<span class="n">description</span> <span class="o">=</span> <span class="n">Run</span> <span class="n">arbitrary</span> <span class="n">command</span> <span class="n">following</span> <span class="s2">&quot;--&quot;</span> <span class="ow">in</span> <span class="n">the</span> <span class="n">current</span> <span class="n">stable</span> <span class="n">environment</span><span class="p">,</span> <span class="n">e</span><span class="o">.</span><span class="n">g</span><span class="o">.</span> <span class="s2">&quot;tox -e run-cmd -- ipython&quot;</span>
+<span class="n">commands</span> <span class="o">=</span> <span class="p">{</span><span class="n">posargs</span><span class="p">:</span><span class="n">python</span> <span class="o">-</span><span class="n">c</span> <span class="s1">&#39;print(&quot;No command&quot;)&#39;</span><span class="p">}</span>
+</pre></div>
+</div>
+<p>It creates a source distribution (<code class="docutils literal notranslate"><span class="pre">.tar.gz</span></code> file) and a compiled “wheel” (<code class="docutils literal notranslate"><span class="pre">.whl</span></code> file), see <a class="reference external" href="https://packaging.python.org/guides/distributing-packages-using-setuptools/#packaging-your-project">Packaging your project</a> for details.</p>
+<p>The source distribution is an archive that contains the files specified in <a class="reference external" href="https://packaging.python.org/guides/using-manifest-in/"><code class="docutils literal notranslate"><span class="pre">MANIFEST.in</span></code></a> in addition to a set of “standard files” and some meta-data. It must contain all the files required to install the package on <em>any</em> platform. It may also contain tests and documentation.</p>
+<p>The wheel is a zip file containing data directly to be un-packed into the Python installation’s <code class="docutils literal notranslate"><span class="pre">site-packages</span></code> directory (plus some metadata). See <a class="reference external" href="https://realpython.com/python-wheels/">What Are Python Wheels and Why Should You Care?</a> and <a class="reference external" href="https://www.python.org/dev/peps/pep-0427/">PEP 427</a> for a detailed overview.</p>
+</div>
+</div>
+<div class="section" id="traditional-cython-packages">
+<h2>Traditional Cython Packages<a class="headerlink" href="#traditional-cython-packages" title="Permalink to this headline">¶</a></h2>
+<p>A package that contains extension modules in Cython sets up “cythonization” and compilations in the <code class="docutils literal notranslate"><span class="pre">setup.py</span></code> file. This is described in the <a class="reference external" href="https://cython.readthedocs.io/en/latest/src/userguide/source_files_and_compilation.html">Cython documentation</a>. Essentially:</p>
+<ul class="simple">
+<li><p>Set up a list of <code class="docutils literal notranslate"><span class="pre">setuptools.Extension</span></code> instances, one for each <code class="docutils literal notranslate"><span class="pre">pyx</span></code> file.</p></li>
+<li><p>Run this list through the <code class="docutils literal notranslate"><span class="pre">Cython.Build.cythonize</span></code> function. This translates the <code class="docutils literal notranslate"><span class="pre">.pyx</span></code> files into <code class="docutils literal notranslate"><span class="pre">.c</span></code> files and transforms the <code class="docutils literal notranslate"><span class="pre">Extension</span></code> instances such that they use that <code class="docutils literal notranslate"><span class="pre">c</span></code> file in their <code class="docutils literal notranslate"><span class="pre">sources</span></code> attribute.</p></li>
+</ul>
+<div class="section" id="testing-and-development-installs">
+<h3>Testing and development installs<a class="headerlink" href="#testing-and-development-installs" title="Permalink to this headline">¶</a></h3>
+<p>Since we are testing with editable installs (see above), any changes in Python files are automatically picked up by the tests. For <code class="docutils literal notranslate"><span class="pre">.pyx</span></code> files, this is not true automatically. We have to make sure that <code class="docutils literal notranslate"><span class="pre">python</span> <span class="pre">setup.py</span> <span class="pre">build_ext</span> <span class="pre">--inplace</span> <span class="pre">--verbose</span></code> is called to both update the <code class="docutils literal notranslate"><span class="pre">.c</span></code> files from any changed <code class="docutils literal notranslate"><span class="pre">.pyx</span></code> files, and then compile them into <code class="docutils literal notranslate"><span class="pre">.so</span></code> files. You may put this command into the <code class="docutils literal notranslate"><span class="pre">commands_pre</span></code> entry of the <code class="docutils literal notranslate"><span class="pre">[testenv]</span></code> section in <a class="reference external" href="https://github.com/goerz-testing/cython-package-example/blob/master/tox.ini"><code class="docutils literal notranslate"><span class="pre">tox.ini</span></code></a>.</p>
+</div>
+<div class="section" id="package-installations">
+<h3>Package installations<a class="headerlink" href="#package-installations" title="Permalink to this headline">¶</a></h3>
+<p>The <code class="docutils literal notranslate"><span class="pre">setup.py</span></code> file included in the source distribution is run by <code class="docutils literal notranslate"><span class="pre">pip</span></code> anytime the package is installed from the Python package index. While for testing and <em>creating</em> distributions it’s no problem if the <code class="docutils literal notranslate"><span class="pre">setup.py</span></code> file depends on Cython, as it is always executed by the python from the (tox) virtual environment over which we have full control. On the other hand, when <em>installing</em> the source distribution the <code class="docutils literal notranslate"><span class="pre">setup.py</span></code> script is run by whatever Python is executing <code class="docutils literal notranslate"><span class="pre">pip</span></code>, and we have no control over whether that Python has Cython (or any other package that <code class="docutils literal notranslate"><span class="pre">setup.py</span></code> may depend on) installed at all or in any specific version.</p>
+<p>The traditional response to this has been to include in the source distribution the <code class="docutils literal notranslate"><span class="pre">.c</span></code> files that Cython generates. Then, the <code class="docutils literal notranslate"><span class="pre">setup.py</span></code> file can be written such that it depends only optionally on Cython. The <a class="reference external" href="https://cython.readthedocs.io/en/latest/src/userguide/source_files_and_compilation.html#distributing-cython-modules">Cython documentation has specific instructions for this</a>. Basically, one can put a <code class="docutils literal notranslate"><span class="pre">no_cythonize</span></code> function into <code class="docutils literal notranslate"><span class="pre">setup.py</span></code>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">no_cythonize</span><span class="p">(</span><span class="n">extensions</span><span class="p">,</span> <span class="o">**</span><span class="n">_ignore</span><span class="p">):</span>
+    <span class="s2">&quot;&quot;&quot;Drop-in replacment for Cython.Build.cythonize</span>
+<span class="s2">    for extension in extensions:</span>
+<span class="s2">        sources = []</span>
+<span class="s2">        for sfile in extension.sources:</span>
+<span class="s2">            path, ext = os.path.splitext(sfile)</span>
+<span class="s2">            if ext in (&quot;.pyx&quot;, &quot;.py&quot;):</span>
+<span class="s2">                ext = {&quot;c++&quot;: &quot;.cpp&quot;}.get(extension.language, &#39;.c&#39;)</span>
+<span class="s2">                sfile = path + {&quot;c++&quot;: &quot;.cpp&quot;}.get(extension.language, &#39;.c&#39;)</span>
+<span class="s2">            sources.append(sfile)</span>
+<span class="s2">        extension.sources[:] = sources</span>
+<span class="s2">    return extensions</span>
+</pre></div>
+</div>
+<p>See https://github.com/FedericoStra/cython-package-example/blob/master/setup.py for a complete example.</p>
+<p>If there are other packages that <code class="docutils literal notranslate"><span class="pre">setup.py</span></code> depends on e.g. numpy for <code class="docutils literal notranslate"><span class="pre">include_dirs=[numpy.get_include()]</span></code>, there techniques for delaying their import until after <code class="docutils literal notranslate"><span class="pre">install_requires</span></code> has been processed, e.g. by using <code class="docutils literal notranslate"><span class="pre">create_extension</span></code>, <a class="reference external" href="https://cython.readthedocs.io/en/latest/src/userguide/source_files_and_compilation.html#configuring-the-c-build">as explained in the Cython documentation</a></p>
+</div>
+</div>
+<div class="section" id="cython-packages-using-pyproject-toml">
+<h2>Cython packages using pyproject.toml<a class="headerlink" href="#cython-packages-using-pyproject-toml" title="Permalink to this headline">¶</a></h2>
+<p>Recently, with the adoption of <a class="reference external" href="https://www.python.org/dev/peps/pep-0517/">PEP 517</a>/<a class="reference external" href="https://www.python.org/dev/peps/pep-0518/">518</a>, the “build dependencies” may be specified in a file <code class="docutils literal notranslate"><span class="pre">pyproject.toml</span></code>. Build dependencies are the requirements for running <code class="docutils literal notranslate"><span class="pre">setup.py</span></code> itself, which we can use that to enforce that Cython is installed (in a particular version, if that matters), as well as any other dependencies like numpy. See <a class="reference external" href="https://snarky.ca/what-the-heck-is-pyproject-toml/">What the Heck is pyproject.toml</a>.</p>
+<p>Ultimately, <code class="docutils literal notranslate"><span class="pre">pyproject.toml</span></code> may replace <code class="docutils literal notranslate"><span class="pre">setup.py</span></code> and <code class="docutils literal notranslate"><span class="pre">setup.cfg</span></code> entirely, but as of Nov 2020, adaption of the new system is still lagging. Most importantly, not having a <code class="docutils literal notranslate"><span class="pre">setup.py</span></code> currently does not allow for editable installs, which are a cornerstone of the testing approach we use here.  Thus, for the time being, we only use <code class="docutils literal notranslate"><span class="pre">pyproject.toml</span></code> to specify the build dependencies.It is worth noting that <a class="reference external" href="https://www.python.org/dev/peps/pep-0517/">PEP 517</a> uses <em>build isolation</em>: The build requirements are installed in a temporary virtual environment, not the environment running <code class="docutils literal notranslate"><span class="pre">pip</span></code> (our tox testing environment). Thus, dependencies listed in <code class="docutils literal notranslate"><span class="pre">pyproject.toml</span></code> may have to be specified separately as dev-requirements (<code class="docutils literal notranslate"><span class="pre">extras_require['dev']</span></code> in <code class="docutils literal notranslate"><span class="pre">setup.py</span></code>) such that they are installed into tox environments.</p>
+<p>Since the ability to specify build requirements removes any need for packaging the source distribution in such a way that it can be installed without Cython, we no longer need workarounds like the <code class="docutils literal notranslate"><span class="pre">no_cythonize</span></code> function discussed above. That means that the cythonized <code class="docutils literal notranslate"><span class="pre">c</span></code> files do not have to be included in the source distribution, although doing so does not cause harm, and may be useful for the system administrator in an unusual environment when installing the package “manually”.</p>
+<p>An example of a full <code class="docutils literal notranslate"><span class="pre">pyproject.toml</span></code> file augmenting a <code class="docutils literal notranslate"><span class="pre">setup.py</span></code> file is the following:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">build</span><span class="o">-</span><span class="n">system</span><span class="p">]</span>
+<span class="n">requires</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;setuptools&quot;</span><span class="p">,</span> <span class="s2">&quot;wheel&quot;</span><span class="p">,</span> <span class="s2">&quot;cython&quot;</span><span class="p">,</span> <span class="s2">&quot;numpy&quot;</span><span class="p">]</span>
+<span class="n">build</span><span class="o">-</span><span class="n">backend</span> <span class="o">=</span> <span class="s2">&quot;setuptools.build_meta&quot;</span>
+</pre></div>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">build-backend</span></code> is optional. Quoting from <a class="reference external" href="https://www.python.org/dev/peps/pep-0517/">PEP 517</a>:</p>
+<blockquote>
+<div><p>If the <code class="docutils literal notranslate"><span class="pre">pyproject.toml</span></code> file is absent, or the build-backend key is missing, the source tree is not using this specification, and tools should revert to the legacy behaviour of running <code class="docutils literal notranslate"><span class="pre">setup.py</span></code> (either directly, or by implicitly invoking the <code class="docutils literal notranslate"><span class="pre">setuptools.build_meta:__legacy__</span></code> backend).</p>
+</div></blockquote>
+<p>Generally:</p>
+<ul class="simple">
+<li><p>If there is no <code class="docutils literal notranslate"><span class="pre">pyproject.toml</span></code> file or Cython is not listed as a build dependency, package the cythonized c code in the source distribution and write <code class="docutils literal notranslate"><span class="pre">setup.py</span></code> such that Cython is not used by default</p></li>
+<li><p>If there is a <code class="docutils literal notranslate"><span class="pre">pyproject.toml</span></code> file that includes Cython in its <code class="docutils literal notranslate"><span class="pre">requires</span></code> list, the <code class="docutils literal notranslate"><span class="pre">setup.py</span></code> should be written such that Cython is used by default to cythonize the <code class="docutils literal notranslate"><span class="pre">.pyx</span></code> files in the source distribution.</p></li>
+</ul>
+</div>
+<div class="section" id="building-platform-wheels">
+<h2>Building platform wheels<a class="headerlink" href="#building-platform-wheels" title="Permalink to this headline">¶</a></h2>
+<p>See https://github.com/joerick/cibuildwheel</p>
+<p>If building via <code class="docutils literal notranslate"><span class="pre">tox</span></code>, make sure to pass the appropriate environment variables to tox.</p>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="API/cypack.html" class="btn btn-neutral float-right" title="cypack package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="index.html" class="btn btn-neutral float-left" title="Cython package example" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        
+        &copy; Copyright 2020, Michael Goerz
+      <span class="lastupdated">
+        Last updated on Dec 13, 2020.
+      </span>
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
