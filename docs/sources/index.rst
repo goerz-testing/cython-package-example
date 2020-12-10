@@ -1,6 +1,9 @@
 Cython package example
 ======================
 
+.. image:: https://img.shields.io/badge/goerz--testing-cython--package--example-blue?logo=github
+   :alt: Source code on Github
+   :target: https://github.com/goerz-testing/cython-package-example 
 .. image:: https://github.com/goerz-testing/cython-package-example/workflows/Tests/badge.svg?branch=master
    :alt: Tests
    :target: https://github.com/goerz-testing/cython-package-example/actions?query=workflow%3ATests
