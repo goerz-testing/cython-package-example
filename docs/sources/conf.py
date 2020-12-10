@@ -47,9 +47,10 @@ nitpicky = True
 nitpick_ignore = [('py:class', 'callable')]
 
 extensions = [
+    'doctr_versions_menu',
     'graphviz_ext',
     'inheritance_diagram',
-    'doctr_versions_menu',
+    'recommonmark',
     'sphinx.ext.autodoc',
     'sphinx.ext.autosummary',
     'sphinx.ext.coverage',

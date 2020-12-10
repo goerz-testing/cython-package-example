@@ -61,6 +61,7 @@ EXTENSIONS = [
 if CYTHONIZE:
     EXTENSIONS = cythonize(
         EXTENSIONS,
+        # https://cython.readthedocs.io/en/latest/src/userguide/source_files_and_compilation.html#compiler-directives
         compiler_directives={"language_level": 3, "embedsignature": True},
     )
 else:

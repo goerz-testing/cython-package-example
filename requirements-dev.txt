@@ -6,9 +6,9 @@ doctr-versions-menu
 flake8 >= 3.7
 gitpython
 ipython
-ipython
 pytest >= 5.1
 pytest-cov
+recommonmark
 sphinx
 sphinx-autobuild
 sphinx-copybutton
