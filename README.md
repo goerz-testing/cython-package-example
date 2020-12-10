@@ -2,7 +2,7 @@
 
 [![Source code on Github](https://img.shields.io/badge/goerz--testing-cython--package--example-blue?logo=github)](https://github.com/goerz-testing/cython-package-example)
 [![Tests](https://github.com/goerz-testing/cython-package-example/workflows/Tests/badge.svg?branch=master)](https://github.com/goerz-testing/cython-package-example/actions?query=workflow%3ATests)
-[![Docs](https://github.com/goerz-testing/cython-package-example/workflows/Docs/badge.svg?branch=master)](https://github.com/goerz-testing/cython-package-example/actions?query=workflow%3ADocs)
+[![Docs](https://github.com/goerz-testing/cython-package-example/workflows/Docs/badge.svg?branch=master)](https://goerz-testing.github.io/cython-package-example)
 
 Forked from https://github.com/FedericoStra/cython-package-example
 
