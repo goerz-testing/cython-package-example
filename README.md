@@ -1,5 +1,8 @@
 # Cython package example
 
+![Tests](https://github.com/goerz-testing/cython-package-example/workflows/Tests/badge.svg?branch=master)
+![Docs](https://github.com/goerz-testing/cython-package-example/workflows/Docs/badge.svg?branch=master)
+
 Forked from https://github.com/FedericoStra/cython-package-example
 
 ## Purpose

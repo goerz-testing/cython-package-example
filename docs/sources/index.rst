@@ -1,6 +1,13 @@
 Cython package example
 ======================
 
+.. image:: https://github.com/goerz-testing/cython-package-example/workflows/Tests/badge.svg?branch=master
+   :alt: Tests
+   :target: https://github.com/goerz-testing/cython-package-example/actions?query=workflow%3ATests
+.. image:: https://github.com/goerz-testing/cython-package-example/workflows/Docs/badge.svg?branch=master 
+   :alt: Docs
+   :target: https://github.com/goerz-testing/cython-package-example/actions?query=workflow%3ADocs
+
 The purpose of this package is to demonstrate the organization of a project
 developed using Cython. See the `Github project`_ for example source code and
 configuration files, showing the best practices for a project that makes use of
