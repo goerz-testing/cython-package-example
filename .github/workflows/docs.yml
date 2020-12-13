@@ -59,7 +59,7 @@ jobs:
           python-version: 3.8
 
       - name: Install deploy requirements
-        run: pip install doctr-versions-menu
+        run: pip install git+https://github.com/goerz/doctr_versions_menu.git@master#egg=doctr_versions_menu
 
       - name: Get branch name
         shell: bash

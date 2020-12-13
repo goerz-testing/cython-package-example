@@ -2,7 +2,7 @@ better-apidoc
 coverage
 cython
 doctr
-doctr-versions-menu
+doctr_versions_menu @  git+https://github.com/goerz/doctr_versions_menu.git@master
 flake8 >= 3.7
 gitpython
 ipython
